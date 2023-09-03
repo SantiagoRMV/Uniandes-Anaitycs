@@ -1,1 +1,1 @@
-# Uniandes-Anaitycs
+# Uniandes-Analitycs
