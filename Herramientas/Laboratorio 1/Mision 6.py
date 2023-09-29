@@ -68,7 +68,7 @@ def asignar_beca(diccionario, promedios, becas):
     columna_filtrada_id = []
     columna_filtrada_estrato = []
     columna_filtrada_promedio = []
-    estratos = ['1','2','3','4','5']
+    estratos = [1,2,3,4,5]
     y = 0
     
     while becas >= 1:
@@ -77,7 +77,8 @@ def asignar_beca(diccionario, promedios, becas):
             print(f'empezando ciclo de estrato {estrato}')
             print(promedio)
             for i, estrato_alumno in enumerate(diccionario['estrato']):
-                if int(diccionario['estrato'][i]) == int(estrato):
+                print(i)
+                if int(diccionario['estrato'][i]) == estrato:
                     print(diccionario['estrato'][i])
                     if float(diccionario['promedio'][i]) >= float(promedio) and diccionario['flag'][i] == False:
                         columna_filtrada_id.append(diccionario['id'][i])
