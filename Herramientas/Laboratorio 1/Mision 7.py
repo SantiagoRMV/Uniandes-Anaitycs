@@ -147,24 +147,51 @@ for i in range(cantidad_tuplas):
 # Filtrar estudiantes basado en las variables de filtro
 estudiantes_filtrados = {}
 
-for tupla, variables in variables_filtro.items():
-    estudiantes_filtrados[tupla] = []  # Inicializa una lista vacía para cada tupla
+for tupla in combinaciones:
+    estudiantes_filtrados[tupla] = []  # Inicializa una lista vacía para cada tupla         
 
-for i, estudiante in enumerate(estudiantes_preseleccionados):
-    print(estudiante)
-    for tupla, variable in variables_filtro.items():
-        if all(estudiante[caracteristica][i] == variable for caracteristica in caracteristicas):
-            estudiantes_filtrados[tupla].append(estudiante)
+lista_porcentajes = []
+for porcentaje in porcentajes.values():
+    lista_porcentajes.append(porcentaje)
+
+
+for tupla in combinaciones:
+    tupla_id = []
+    tupla_genero = []
+    tupla_region = []
+    tupla_estrato = []
+    tupla_promedio = []    
+    
+    for i, estudiante in enumerate(estudiantes_preseleccionados):         
+            if all(estudiantes_preseleccionados[caracteristica][i] == variable_tupla for caracteristica , variable_tupla in zip(caracteristicas, tupla)):
+                tupla_id.append(estudiantes_preseleccionados['id'][i])
+                tupla_genero.append(estudiantes_preseleccionados['genero'][i])
+                tupla_region.append(estudiantes_preseleccionados['region'][i])
+                tupla_estrato.append(estudiantes_preseleccionados['estrato'][i])
+                tupla_promedio.append(estudiantes_preseleccionados['promedio'][i])
             
+    estudiantes_tupla = {'id':tupla_id ,'genero':tupla_genero ,'region':tupla_region ,'estrato':tupla_estrato ,'promedio':tupla_promedio}
+    estudiantes_filtrados[tupla].append(estudiantes_tupla)
 
-
-
-
-
-
-
-
-
-
-
-
+#Reemplazando nombres tuplas
+estudiantes_en_tupla = {}
+for tupla in estudiantes_filtrados.keys():
+    if tupla in lista_tuplas:
+        estudiantes_en_tupla[tupla] = estudiantes_filtrados[tupla]
+        
+#Calculando cantidad de becas a entregar
+lista_becas = []
+for tupla, porcentaje_asignado in zip(lista_tuplas, lista_porcentajes):
+    becas_asignadas = N * porcentaje_asignado
+    lista_becas.append(becas_asignadas)
+    
+#Asignando becas
+becas_asignadas_tupla = {}
+for tupla, becas in zip(estudiantes_en_tupla.keys(), lista_becas):
+    if len(estudiantes_en_tupla[tupla][0]['id']) > 0:
+        becas_tupla = becas
+    elif len(estudiantes_en_tupla[tupla][0]['id']) ==  0:
+        becas_tupla = 0
+    becas_asignadas_tupla[tupla] = becas_tupla
+print('Becas asignadas:')
+print(becas_asignadas_tupla)                
