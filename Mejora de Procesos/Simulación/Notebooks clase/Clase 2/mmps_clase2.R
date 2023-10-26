@@ -18,9 +18,6 @@ setwd("/Users/santiagoromero/Documents/Maestria/Mejora de Procesos/Simulación/
 #setwd("C:/path/to/datos")
 datos <- read.csv(file="mmps_clase2_datos.csv", header=TRUE, sep=",")
 
-
-
-
 ############################################################################################
 ## Histograma de la serie de datos.
 hist(datos$TiempoEntreArribos, main = "Histograma de la serie de datos", xlab="Hora entre Arribos", las=1, pro = FALSE)
@@ -30,10 +27,10 @@ hist(datos$TiempoEntreArribos, main = "Histograma de la serie de datos", xlab="H
 
 ## Almacenar la estimaci�n por m�xima verosimilitud de la serie de datos
 ## a una distribuci�n de probabilidad ingresada por par�metro.
-ajuste <- fitdist(datos$TiempoEntreArribos, "f")
+ajuste <- fitdist(datos$TiempoEntreArribos, "exp")
 
-# "beta", "cauchy", "chi-squared", "exponential", "f", "gamma", "geometric", "log-normal", 
-# "lognormal", "logistic", "negative binomial", "normal", "Poisson", "t" and "weibull"
+# "beta", "cauchy", "chi-squared", "exp", "f", "gamma", "geome", "log-normal", 
+# "lognormal", "logist", "negative binomial", "norm", "pois", "t" and "weibull"
 
 ## Mostrar los par�metros del ajuste a la distribuci�n dada.
 print(ajuste$estimate)
@@ -87,7 +84,7 @@ hist(franjahoraria$TiempoEntreArribo, main = "Histograma de la serie de datos", 
 
 ## Almacenar la estimaci�n por m�xima verosimilitud de la serie de datos
 ## a una distribuci�n de probabilidad ingresada por par�metro.
-ajuste <- fitdist(franjahoraria$TiempoEntreArribo, "f")
+ajuste <- fitdist(franjahoraria$TiempoEntreArribo, "exp")
 
 ## Mostrar los par�metros del ajuste a la distribuci�n dada.
 print(ajuste$estimate)
@@ -105,3 +102,56 @@ print(resultados$kstest)
 ## P-Value de la prueba de Chi-Cuadrado
 print(resultados$chisqpvalue)
 
+############################################################################################
+##  Bondad de ajuste para la franja horaria 2
+franjahoraria<-datos[datos$FranjaHoraria %in% c("2"), ]
+
+## Histograma de la serie de datos.
+hist(franjahoraria$TiempoEntreArribo, main = "Histograma de la serie de datos", las=1, prob=FALSE)
+
+## Almacenar la estimaci�n por m�xima verosimilitud de la serie de datos
+## a una distribuci�n de probabilidad ingresada por par�metro.
+ajuste <- fitdist(franjahoraria$TiempoEntreArribo, "weibull")
+
+## Mostrar los par�metros del ajuste a la distribuci�n dada.
+print(ajuste$estimate)
+
+## Mostrar las gr�ficas de inter�s de las distribuciones emp�rica y te�rica.
+plot(ajuste)
+
+## Realizar y guardar prueba de bondad de ajuste a la serie de datos con respecto a
+## la distribuci�n te�rica escogida.
+resultados <- gofstat(ajuste)
+
+## Rechazo de la prueba de Kolmogorov-Smirnov
+print(resultados$kstest)
+
+## P-Value de la prueba de Chi-Cuadrado
+print(resultados$chisqpvalue)
+
+############################################################################################
+##  Bondad de ajuste para la franja horaria 3
+franjahoraria<-datos[datos$FranjaHoraria %in% c("3"), ]
+
+## Histograma de la serie de datos.
+hist(franjahoraria$TiempoEntreArribo, main = "Histograma de la serie de datos", las=1, prob=FALSE)
+
+## Almacenar la estimaci�n por m�xima verosimilitud de la serie de datos
+## a una distribuci�n de probabilidad ingresada por par�metro.
+ajuste <- fitdist(franjahoraria$TiempoEntreArribo, "norm")
+
+## Mostrar los par�metros del ajuste a la distribuci�n dada.
+print(ajuste$estimate)
+
+## Mostrar las gr�ficas de inter�s de las distribuciones emp�rica y te�rica.
+plot(ajuste)
+
+## Realizar y guardar prueba de bondad de ajuste a la serie de datos con respecto a
+## la distribuci�n te�rica escogida.
+resultados <- gofstat(ajuste)
+
+## Rechazo de la prueba de Kolmogorov-Smirnov
+print(resultados$kstest)
+
+## P-Value de la prueba de Chi-Cuadrado
+print(resultados$chisqpvalue)
